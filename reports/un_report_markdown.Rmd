@@ -1,0 +1,51 @@
+---
+title: "A UN Report on the relationship between"
+author: "Takao"
+date: "5/25/2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r packages}
+library(tidyverse)
+```
+This is report was prepared to the attention of the United Nations. it analysis the realtinship between a coiuntry's GDP, its life expectancy and CO2 emissions. Our goal is to determine to what degree a country's ecomic strength or weakness may be relted to its public health status and impact on climate pollution. We
+
+```{r}
+gapminder_1997 <- read_csv("data/gapminder_1997.csv")
+```
+```{r gdp_lifeexp_1997}
+ggplot(data = gapminder_1997) +
+  aes(x = gdpPercap, y=lifeExp, color = continent, size=pop/100000) +
+  geom_point() +
+  labs(x = "GDP Per Capita", y= "life expectancy", title ="I'm proud of myself",
+  size="Population(in millions)")
+```
+
+```{r, include=FALSE}
+# this piece of code count the number of countries
+nCountries <- gapminder_1997 %>%  select(country) %>%  n_distinct()
+minGDP <- gapminder_1997 %>%  summarise(round(min(gdpPercap))) %>% 
+pull()
+maxGDP <- gapminder_1997 %>%  summarise(round(max(gdpPercap))) %>% 
+pull()
+```
+
+The above plot shows the relationship between GDP per capta and life expectancy
+for a total of 'r nCountries' countries. For this set of countries, ecnomic wealth ranged from a minimum of USD 'r minGDP' to a maximum of USD 'r maxGDP' per capita.
+
+| HEADER 1 | HEADER 2 |
+| -------- | -------- |
+| row 1, column 1 | row 1, column 2|
+| row 2, column 1 | row 2, column 2|
+
+```{r kable_table}
+library(knitr)
+gapminder_1997 %>% 
+  filter(continent == "Oceania") %>% 
+  kable()
+```
+
